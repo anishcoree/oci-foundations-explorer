@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OCI Foundations Explorer</title>
+<meta name="description" content="An interactive guide to Oracle Cloud Infrastructure Foundations concepts, built by Anish Deshmukh.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f4f1; --card:#ffffff; --ink:#1d2329; --muted:#5d6670; --line:#e3ded7;
+  --red:#c74634; --red-soft:#fbe9e6; --navy:#24405f; --blue-soft:#e6eef8; --yel-soft:#f6ebc4; --grn:#2f7d4f; --grn-soft:#e2efda; --bad:#b3261e;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 6px 24px rgba(36,64,95,.06);
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+a{color:var(--red)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+nav{position:sticky;top:0;z-index:10;background:rgba(246,244,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:18px;height:56px;overflow-x:auto}
+nav .logo{font-weight:800;white-space:nowrap;display:flex;align-items:center;gap:8px}
+nav .logo span{display:inline-block;width:22px;height:14px;border:4px solid var(--red);border-radius:10px}
+nav a.l{color:var(--muted);text-decoration:none;font-size:14px;white-space:nowrap}
+nav a.l:hover{color:var(--ink)}
+header{padding:64px 0 36px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--red)}
+h1{font-size:clamp(34px,5vw,56px);line-height:1.05;margin:10px 0 16px;letter-spacing:-.02em}
+.lead{font-size:18px;color:var(--muted);max-width:720px}
+.badge{display:inline-flex;gap:10px;align-items:center;margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:8px 16px 8px 8px;box-shadow:var(--shadow);font-size:14px}
+.badge b{background:var(--red);color:#fff;border-radius:999px;padding:4px 10px;font-size:12px}
+.modules{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:34px}
+.modules a{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;text-decoration:none;color:var(--ink);box-shadow:var(--shadow);transition:transform .15s}
+.modules a:hover{transform:translateY(-2px)}
+.modules small{color:var(--red);font-weight:700;font-size:12px}
+.modules div{font-weight:600;font-size:14px;margin-top:4px}
+section{padding:44px 0;border-top:1px solid var(--line)}
+section h2{font-size:28px;margin:6px 0 6px;letter-spacing:-.01em}
+section p.sub{color:var(--muted);margin:0 0 22px;max-width:760px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:820px){.grid2{grid-template-columns:1fr}}
+.seg{display:inline-flex;background:#ece8e2;border-radius:10px;padding:4px;gap:4px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;padding:8px 14px;border-radius:7px;font:600 14px Inter;color:var(--muted);cursor:pointer}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.stack{display:grid;gap:6px;margin-top:18px;max-width:420px}
+.layer{padding:9px 12px;border-radius:8px;font-size:14px;display:flex;justify-content:space-between;transition:background .25s}
+.layer.c{background:var(--yel-soft)} .layer.p{background:var(--blue-soft)}
+.layer em{font-style:normal;font-size:12px;color:var(--muted)}
+.legend{display:flex;gap:16px;font-size:13px;color:var(--muted);margin-top:12px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.note{font-size:14px;color:var(--muted);background:#faf8f5;border-left:3px solid var(--red);padding:10px 14px;border-radius:0 8px 8px 0;margin-top:14px}
+/* region sim */
+.region{border:2px solid var(--navy);border-radius:16px;padding:14px;background:#fbfcfe}
+.region h4{margin:0 0 10px;text-align:center}
+.ads{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:620px){.ads{grid-template-columns:1fr}}
+.ad{border:1.5px solid var(--navy);border-radius:12px;padding:10px;background:var(--blue-soft);cursor:pointer;transition:all .2s}
+.ad.down{background:#f4d4d0;border-color:var(--bad)}
+.ad .t{font-size:13px;font-weight:700;text-align:center;margin-bottom:8px}
+.fds{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.fd{background:var(--yel-soft);border:1px solid #cdb86a;border-radius:8px;min-height:74px;padding:6px 2px;text-align:center;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:4px}
+.fd.down{background:#e9b4ad;border-color:var(--bad);opacity:.8}
+.vm{width:26px;height:20px;border-radius:5px;background:var(--grn);color:#fff;font-size:10px;line-height:20px}
+.fd.down .vm,.ad.down .vm{background:var(--bad)}
+.status{margin-top:14px;padding:14px;border-radius:12px;font-weight:700;display:flex;align-items:center;gap:10px}
+.status.up{background:var(--grn-soft);color:var(--grn)} .status.dn{background:#f9dedb;color:var(--bad)}
+.dot{width:12px;height:12px;border-radius:50%;background:currentColor;box-shadow:0 0 0 4px rgba(0,0,0,.05)}
+.btn{border:0;background:var(--ink);color:#fff;padding:9px 14px;border-radius:9px;font:600 14px Inter;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+/* vcn */
+.vcn svg{width:100%;height:auto}
+.gw{cursor:pointer}
+.gw rect{transition:all .2s}
+.gw.on rect{fill:#c74634;stroke:#8e2c1f}
+.gw.on text{fill:#fff}
+.path{stroke:#c74634;stroke-width:3;fill:none;stroke-dasharray:6 5;opacity:0;transition:opacity .3s}
+.path.on{opacity:1;animation:dash 1s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-22}}
+.scen{display:grid;gap:8px}
+.scen button{text-align:left;border:1px solid var(--line);background:var(--card);padding:11px 14px;border-radius:10px;font:500 14px Inter;cursor:pointer;color:var(--ink)}
+.scen button.on{border-color:var(--red);background:var(--red-soft)}
+.explain{margin-top:14px;min-height:80px}
+/* iam */
+label{font-size:13px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px}
+select,input[type=number]{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:9px;font:500 14px Inter;background:#fff;color:var(--ink)}
+.fields{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.code{font-family:"JetBrains Mono",monospace;background:#1d2329;color:#f3efe9;border-radius:12px;padding:16px;font-size:14px;line-height:1.6;word-break:break-word}
+.code .k{color:#ff8f7e}.code .v{color:#9fd3ff}
+.perms{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:14px}
+.perm{text-align:center;padding:8px 4px;border-radius:8px;font-size:12px;font-weight:600;background:#efebe6;color:#a39b91}
+.perm.on{background:var(--grn-soft);color:var(--grn)}
+/* match */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.q{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--card)}
+.q p{margin:0 0 10px;font-weight:600;font-size:14px}
+.q .opts{display:flex;flex-wrap:wrap;gap:6px}
+.q .opts button{border:1px solid var(--line);background:#faf8f5;border-radius:999px;padding:6px 11px;font:500 13px Inter;cursor:pointer;color:var(--ink)}
+.q .opts button.ok{background:var(--grn-soft);border-color:var(--grn);color:var(--grn)}
+.q .opts button.no{background:#f9dedb;border-color:var(--bad);color:var(--bad)}
+.q .why{font-size:13px;color:var(--muted);margin-top:8px;display:none}
+/* cost */
+.total{font-size:40px;font-weight:800;letter-spacing:-.02em}
+.row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.free{color:var(--grn);font-weight:700}
+/* quiz */
+.quiz .opt{display:block;width:100%;text-align:left;margin:6px 0;border:1px solid var(--line);background:#fff;padding:11px 14px;border-radius:10px;font:500 15px Inter;cursor:pointer;color:var(--ink)}
+.quiz .opt.ok{background:var(--grn-soft);border-color:var(--grn)}
+.quiz .opt.no{background:#f9dedb;border-color:var(--bad)}
+.bar{height:6px;background:#ece8e2;border-radius:9px;overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--red);transition:width .3s}
+footer{padding:40px 0 60px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+.kbd{font-family:"JetBrains Mono",monospace;font-size:12px;background:#ece8e2;border-radius:5px;padding:1px 6px}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <div class="logo"><span></span>OCI Explorer</div>
+  <a class="l" href="#models">Cloud Models</a><a class="l" href="#regions">Regions & HA</a><a class="l" href="#network">Networking</a>
+  <a class="l" href="#iam">IAM Policies</a><a class="l" href="#services">Service Matcher</a><a class="l" href="#cost">Cost</a><a class="l" href="#quiz">Quiz</a>
+</div></nav>
+
+<header class="wrap">
+  <div class="eyebrow">Oracle Cloud Infrastructure · Foundations</div>
+  <h1>Learn OCI by playing with it.</h1>
+  <p class="lead">An interactive guide to the five modules of the OCI Foundations Associate course: switch service models, knock out fault domains, route traffic through gateways, write IAM policies and estimate costs.</p>
+  <div class="badge"><b>Certified</b> Built by Anish Deshmukh · Oracle Cloud Infrastructure Certified Foundations Associate (2026)</div>
+  <div class="modules">
+    <a href="#models"><small>CH 2</small><div>Cloud service models</div></a>
+    <a href="#regions"><small>MODULE 1</small><div>Regions, ADs & fault domains</div></a>
+    <a href="#network"><small>MODULE 2</small><div>VCN & gateways</div></a>
+    <a href="#services"><small>MODULE 3</small><div>Choosing OCI services</div></a>
+    <a href="#iam"><small>MODULE 4</small><div>IAM policy builder</div></a>
+    <a href="#cost"><small>MODULE 5</small><div>Cost & Free Tier</div></a>
+  </div>
+</header>
+
+<!-- 1. MODELS -->
+<section id="models"><div class="wrap">
+  <div class="eyebrow">Chapter 2 · Cloud concepts</div>
+  <h2>Who manages what?</h2>
+  <p class="sub">Pick a service model to see which layers you manage and which layers Oracle manages for you.</p>
+  <div class="card grid2">
+    <div>
+      <div class="seg" id="modelSeg"></div>
+      <div class="stack" id="stack"></div>
+      <div class="legend"><span><i style="background:var(--yel-soft)"></i>You manage</span><span><i style="background:var(--blue-soft)"></i>Oracle manages</span></div>
+    </div>
+    <div>
+      <h3 id="mTitle" style="margin-top:0"></h3>
+      <p id="mDesc"></p>
+      <div class="note" id="mEx"></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 2. REGIONS -->
+<section id="regions"><div class="wrap">
+  <div class="eyebrow">Module 1 · Getting started with OCI</div>
+  <h2>High-availability simulator</h2>
+  <p class="sub">Choose where your two app servers run, then <b>click a fault domain or an availability domain</b> to simulate a failure. Does your app stay online?</p>
+  <div class="card">
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px">
+      <div class="seg" id="placeSeg"></div>
+      <button class="btn ghost" id="resetSim">Reset failures</button>
+    </div>
+    <div class="region"><h4>OCI Region · India West (Mumbai) <span style="font-weight:400;color:var(--muted)">(illustrative 3-AD region)</span></h4><div class="ads" id="ads"></div></div>
+    <div class="status up" id="simStatus"><span class="dot"></span><span id="simText"></span></div>
+    <div class="note" id="simNote"></div>
+  </div>
+</div></section>
+
+<!-- 3. NETWORK -->
+<section id="network"><div class="wrap">
+  <div class="eyebrow">Module 2 · Core services</div>
+  <h2>Which gateway carries the traffic?</h2>
+  <p class="sub">A Virtual Cloud Network (VCN) has public and private subnets. Pick a scenario to see which gateway OCI uses and why.</p>
+  <div class="card grid2">
+    <div class="vcn">
+      <svg viewBox="0 0 460 380" id="vcnSvg" aria-label="VCN diagram">
+        <rect x="6" y="6" width="448" height="290" rx="16" fill="#fbfcfe" stroke="#24405f" stroke-width="2"/>
+        <text x="230" y="30" text-anchor="middle" font-weight="700" font-size="14">VCN 10.0.0.0/16</text>
+        <rect x="24" y="46" width="190" height="110" rx="10" fill="#e6eef8" stroke="#24405f"/>
+        <text x="119" y="66" text-anchor="middle" font-size="12" font-weight="700">Public subnet 10.0.1.0/24</text>
+        <rect x="54" y="84" width="130" height="50" rx="8" fill="#fff" stroke="#24405f"/><text x="119" y="113" text-anchor="middle" font-size="12">Load balancer / web</text>
+        <rect x="246" y="46" width="190" height="110" rx="10" fill="#f6ebc4" stroke="#b39a45"/>
+        <text x="341" y="66" text-anchor="middle" font-size="12" font-weight="700">Private subnet 10.0.2.0/24</text>
+        <rect x="276" y="84" width="130" height="50" rx="8" fill="#fff" stroke="#24405f"/><text x="341" y="113" text-anchor="middle" font-size="12">App VM / database</text>
+        <g class="gw" data-g="igw"><rect x="20" y="222" width="96" height="50" rx="9" fill="#e2efda" stroke="#2f7d4f"/><text x="68" y="243" text-anchor="middle" font-size="11" font-weight="700">Internet</text><text x="68" y="258" text-anchor="middle" font-size="11" font-weight="700">Gateway</text></g>
+        <g class="gw" data-g="nat"><rect x="128" y="222" width="96" height="50" rx="9" fill="#e2efda" stroke="#2f7d4f"/><text x="176" y="243" text-anchor="middle" font-size="11" font-weight="700">NAT</text><text x="176" y="258" text-anchor="middle" font-size="11" font-weight="700">Gateway</text></g>
+        <g class="gw" data-g="sgw"><rect x="236" y="222" width="96" height="50" rx="9" fill="#e2efda" stroke="#2f7d4f"/><text x="284" y="243" text-anchor="middle" font-size="11" font-weight="700">Service</text><text x="284" y="258" text-anchor="middle" font-size="11" font-weight="700">Gateway</text></g>
+        <g class="gw" data-g="drg"><rect x="344" y="222" width="96" height="50" rx="9" fill="#e2efda" stroke="#2f7d4f"/><text x="392" y="243" text-anchor="middle" font-size="11" font-weight="700">DRG</text><text x="392" y="258" text-anchor="middle" font-size="9" font-weight="600">VPN / FastConnect</text></g>
+        <g font-size="11" text-anchor="middle" fill="#5d6670">
+          <rect x="20" y="318" width="96" height="44" rx="8" fill="#efefef"/><text x="68" y="344">Internet users</text>
+          <rect x="128" y="318" width="96" height="44" rx="8" fill="#efefef"/><text x="176" y="337">Internet</text><text x="176" y="352">(outbound only)</text>
+          <rect x="236" y="318" width="96" height="44" rx="8" fill="#efefef"/><text x="284" y="337">Object Storage</text><text x="284" y="352">& OCI services</text>
+          <rect x="344" y="318" width="96" height="44" rx="8" fill="#efefef"/><text x="392" y="337">On-premises</text><text x="392" y="352">network</text>
+        </g>
+        <path class="path" data-p="igw" d="M68 318 L68 272 M68 222 L100 134"/>
+        <path class="path" data-p="nat" d="M310 134 L190 222 M176 272 L176 318"/>
+        <path class="path" data-p="sgw" d="M341 134 L290 222 M284 272 L284 318"/>
+        <path class="path" data-p="drg" d="M372 134 L392 222 M392 272 L392 318"/>
+      </svg>
+    </div>
+    <div>
+      <div class="scen" id="scen"></div>
+      <div class="explain note" id="gwExplain">Pick a scenario, or click a gateway in the diagram.</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 4. SERVICES -->
+<section id="services"><div class="wrap">
+  <div class="eyebrow">Modules 2–3 · Compute, storage, database, AI, observability</div>
+  <h2>Service matcher</h2>
+  <p class="sub">Each card describes a real requirement. Pick the OCI service that fits best.</p>
+  <div class="cards" id="matcher"></div>
+  <p style="margin-top:14px;font-weight:700" id="matchScore"></p>
+</div></section>
+
+<!-- 5. IAM -->
+<section id="iam"><div class="wrap">
+  <div class="eyebrow">Module 4 · Security, identity & compliance</div>
+  <h2>IAM policy builder</h2>
+  <p class="sub">OCI denies everything by default, and access exists only where a policy allows it. Build a policy statement and see exactly what it grants.</p>
+  <div class="card grid2">
+    <div>
+      <div class="fields">
+        <div><label>Group</label><select id="pGroup"><option>NetworkAdmins</option><option>Developers</option><option>Auditors</option><option>DBAdmins</option></select></div>
+        <div><label>Verb</label><select id="pVerb"><option>inspect</option><option>read</option><option selected>use</option><option>manage</option></select></div>
+        <div><label>Resource type</label><select id="pRes"><option>virtual-network-family</option><option>instance-family</option><option>object-family</option><option>autonomous-database-family</option><option>all-resources</option></select></div>
+        <div><label>Location</label><select id="pLoc"><option>compartment Networking</option><option>compartment Development</option><option>compartment Production</option><option>tenancy</option></select></div>
+      </div>
+      <div class="perms" id="perms"></div>
+      <div class="note" id="pWarn" style="display:none"></div>
+    </div>
+    <div>
+      <label>Generated policy</label>
+      <div class="code" id="pCode"></div>
+      <p id="pPlain" style="margin-top:14px"></p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 6. COST -->
+<section id="cost"><div class="wrap">
+  <div class="eyebrow">Module 5 · Billing, cost & governance</div>
+  <h2>Monthly cost estimator</h2>
+  <p class="sub">A teaching version of the OCI Cost Estimator. It shows how pay-as-you-go pricing, the Always Free tier and budgets work together. <b>The rates are illustrative, not official prices.</b> Use Oracle's Cost Estimator for real quotes.</p>
+  <div class="card grid2">
+    <div class="fields">
+      <div><label>VM instances</label><input type="number" id="cVm" value="2" min="0"></div>
+      <div><label>OCPUs per VM</label><input type="number" id="cOcpu" value="1" min="1"></div>
+      <div><label>Hours running / month</label><input type="number" id="cHrs" value="730" min="0" max="744"></div>
+      <div><label>Block storage (GB)</label><input type="number" id="cBlk" value="100" min="0"></div>
+      <div><label>Object storage (GB)</label><input type="number" id="cObj" value="50" min="0"></div>
+      <div><label>Monthly budget (₹)</label><input type="number" id="cBud" value="500" min="0"></div>
+      <div style="grid-column:1/-1"><label><input type="checkbox" id="cFree" checked> Apply Always Free allowances (2 micro VMs, 200 GB block, 20 GB object)</label></div>
+    </div>
+    <div>
+      <div style="color:var(--muted);font-size:14px">Estimated monthly cost</div>
+      <div class="total" id="cTotal">₹0</div>
+      <div id="cRows"></div>
+      <div class="status up" id="cBudget" style="margin-top:14px"><span class="dot"></span><span id="cBudText"></span></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 7. QUIZ -->
+<section id="quiz"><div class="wrap">
+  <div class="eyebrow">Check yourself</div>
+  <h2>Foundations quiz</h2>
+  <p class="sub">Ten exam-style questions covering all five modules.</p>
+  <div class="card quiz" id="quizBox"></div>
+</div></section>
+
+<footer><div class="wrap">
+  <b>OCI Foundations Explorer</b>, built by Anish Deshmukh (B.Tech CSE, Manipal University Jaipur) as a demonstration project for the Value-Added Course <i>Oracle Cloud Infrastructure Foundations Associate</i>.<br>
+  Credential: Oracle Cloud Infrastructure Certified Foundations Associate · 28 July 2026 · ID 103569336OCI26FNDCFA.<br>
+  Educational project, not affiliated with or endorsed by Oracle. Concepts are based on the Oracle University course and OCI documentation.
+</div></footer>
+
+<script>
+const $=s=>document.querySelector(s), el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+
+/* ---------- 1. service models ---------- */
+const LAYERS=["Applications","Data","Runtime","Middleware","Operating system","Virtualisation","Servers","Storage","Networking"];
+const MODELS={
+ "On-premises":{k:9,d:"You buy, install and run everything yourself, from the physical network up to the application.",e:"Example: a college server room hosting its own exam portal."},
+ "IaaS":{k:6,d:"Oracle runs the physical data centre, servers, storage, network and virtualisation. You manage the operating system and everything above it.",e:"OCI examples: Compute instances, Block Volume, Virtual Cloud Network."},
+ "PaaS":{k:2,d:"Oracle also manages the OS, middleware and runtime. You bring your application code and data.",e:"OCI examples: Autonomous Database, OKE (Kubernetes), OCI Functions, APEX."},
+ "SaaS":{k:0,d:"A complete application delivered over the internet. You only use and configure it.",e:"Oracle examples: Fusion Cloud ERP / HCM, NetSuite."}};
+const seg=$("#modelSeg");
+Object.keys(MODELS).forEach((m,i)=>{const b=el("button",i==1?"on":"",m);b.onclick=()=>{[...seg.children].forEach(x=>x.classList.remove("on"));b.classList.add("on");showModel(m)};seg.append(b)});
+function showModel(m){const s=$("#stack");s.innerHTML="";LAYERS.forEach((L,i)=>{const c=i<MODELS[m].k;s.append(el("div","layer "+(c?"c":"p"),`${L}<em>${c?"You":"Oracle"}</em>`))});$("#mTitle").textContent=m;$("#mDesc").textContent=MODELS[m].d;$("#mEx").textContent=MODELS[m].e}
+showModel("IaaS");
+
+/* ---------- 2. HA simulator ---------- */
+const PLACES={
+ "Single fault domain":{vms:[[0,0],[0,0]],n:"Both VMs share one fault domain, so they share the same hardware. One hardware failure or maintenance event takes the whole app down."},
+ "Two fault domains":{vms:[[0,0],[0,1]],n:"VMs in different fault domains don't share hardware. This survives host or rack failure, but not the loss of the whole availability domain."},
+ "Two availability domains":{vms:[[0,0],[1,1]],n:"VMs in separate availability domains (separate data centres) survive a whole AD going down. For regional disasters you would add a DR copy in a second region."}};
+let place="Two fault domains", downFD=new Set(), downAD=new Set();
+const pseg=$("#placeSeg");
+Object.keys(PLACES).forEach(p=>{const b=el("button",p==place?"on":"",p);b.onclick=()=>{[...pseg.children].forEach(x=>x.classList.remove("on"));b.classList.add("on");place=p;renderSim()};pseg.append(b)});
+$("#resetSim").onclick=()=>{downFD.clear();downAD.clear();renderSim()};
+function renderSim(){
+ const ads=$("#ads");ads.innerHTML="";const vms=PLACES[place].vms;
+ for(let a=0;a<3;a++){
+  const ad=el("div","ad"+(downAD.has(a)?" down":""));ad.append(el("div","t",`Availability Domain ${a+1}`+(downAD.has(a)?" ✕":"")));
+  ad.onclick=e=>{if(e.target.closest(".fd"))return;downAD.has(a)?downAD.delete(a):downAD.add(a);renderSim()};
+  const fds=el("div","fds");
+  for(let f=0;f<3;f++){
+   const key=a+"-"+f, dn=downFD.has(key);
+   const fd=el("div","fd"+(dn?" down":""),`FD ${f+1}`);
+   vms.forEach((v,i)=>{if(v[0]==a&&v[1]==f)fd.append(el("div","vm","VM"+(i+1)))});
+   fd.onclick=e=>{e.stopPropagation();dn?downFD.delete(key):downFD.add(key);renderSim()};
+   fds.append(fd)}
+  ad.append(fds);ads.append(ad)}
+ const alive=vms.filter(([a,f])=>!downAD.has(a)&&!downFD.has(a+"-"+f)).length;
+ const st=$("#simStatus");st.className="status "+(alive?"up":"dn");
+ $("#simText").textContent=alive?`Application ONLINE: ${alive} of 2 VMs healthy, and the load balancer routes traffic to the survivors.`:"Application DOWN: no healthy VMs left. Single point of failure!";
+ $("#simNote").textContent=PLACES[place].n}
+renderSim();
+
+/* ---------- 3. VCN gateways ---------- */
+const GW={
+ igw:{s:"A visitor on the internet opens our website",t:"Internet Gateway",d:"Allows two-way traffic between a public subnet and the internet. Resources need a public IP and a route rule pointing 0.0.0.0/0 to the IGW, and a security list or NSG rule must allow the port (e.g. 443)."},
+ nat:{s:"A private app VM downloads OS security updates",t:"NAT Gateway",d:"Lets resources in a private subnet start outbound connections to the internet without being reachable from it. The VM keeps only a private IP."},
+ sgw:{s:"A private VM backs up files to Object Storage",t:"Service Gateway",d:"Gives private resources access to OCI public services such as Object Storage over Oracle's network, without the traffic crossing the internet."},
+ drg:{s:"The college's on-campus server must reach the private database",t:"Dynamic Routing Gateway (DRG)",d:"A virtual router connecting the VCN to on-premises networks via Site-to-Site VPN or FastConnect, and to other VCNs (peering)."}};
+const sc=$("#scen");
+Object.entries(GW).forEach(([k,g])=>{const b=el("button","",g.s);b.dataset.g=k;b.onclick=()=>showGw(k);sc.append(b)});
+document.querySelectorAll(".gw").forEach(g=>g.onclick=()=>showGw(g.dataset.g));
+function showGw(k){document.querySelectorAll(".gw").forEach(g=>g.classList.toggle("on",g.dataset.g==k));document.querySelectorAll(".path").forEach(p=>p.classList.toggle("on",p.dataset.p==k));[...sc.children].forEach(b=>b.classList.toggle("on",b.dataset.g==k));$("#gwExplain").innerHTML=`<b>${GW[k].t}</b><br>${GW[k].d}`}
+
+/* ---------- 4. service matcher ---------- */
+const MQ=[
+ {q:"Store millions of student photos and PDF mark sheets cheaply and durably.",o:["Block Volume","Object Storage","File Storage"],a:1,w:"Object Storage is built for unstructured data at scale, with Archive tiers for old files."},
+ {q:"Run a short piece of code every time a file is uploaded, and pay nothing when idle.",o:["Bare Metal","OCI Functions","OKE"],a:1,w:"OCI Functions is serverless and event-driven, so you are billed only while code runs."},
+ {q:"A database that patches, tunes and backs itself up automatically.",o:["Autonomous Database","MySQL on a VM","NoSQL"],a:0,w:"Autonomous Database is self-driving, self-securing and self-repairing."},
+ {q:"Add a chatbot that summarises documents with a large language model.",o:["OCI Vision","OCI Generative AI","Data Flow"],a:1,w:"OCI Generative AI provides managed LLMs for chat, summarisation and embeddings."},
+ {q:"Get an email when a server's CPU stays above 80%.",o:["Audit","Monitoring + Notifications","Cloud Guard"],a:1,w:"A Monitoring alarm on the CPU metric sends a message through a Notifications topic."},
+ {q:"Keep the database password out of the application code.",o:["OCI Vault","Tags","Security Lists"],a:0,w:"Vault stores secrets and encryption keys securely."},
+ {q:"Automatically detect a bucket that was accidentally made public.",o:["Cloud Guard","Load Balancer","Budgets"],a:0,w:"Cloud Guard detectors flag risky configurations and can trigger responders."},
+ {q:"Deploy the same network and VMs repeatedly from code.",o:["Resource Manager (Terraform)","Cloud Shell only","APEX"],a:0,w:"Resource Manager is OCI's managed Terraform service for infrastructure as code."}];
+let mScore=0,mDone=0;
+MQ.forEach(m=>{const c=el("div","q");c.append(el("p","",m.q));const o=el("div","opts");const why=el("div","why",m.w);
+ m.o.forEach((t,i)=>{const b=el("button","",t);b.onclick=()=>{if(c.dataset.done)return;c.dataset.done=1;mDone++;if(i==m.a)mScore++;b.classList.add(i==m.a?"ok":"no");o.children[m.a].classList.add("ok");why.style.display="block";$("#matchScore").textContent=`Score: ${mScore} / ${mDone}`+(mDone==MQ.length?(mScore>=6?" · Nicely done!":" · Review Modules 2–4 and try again."):"")};o.append(b)});
+ c.append(o,why);$("#matcher").append(c)});
+
+/* ---------- 5. IAM ---------- */
+const VERBS=["inspect","read","use","manage"],VD={inspect:"list resources (no confidential details)",read:"list and view resource details and metadata",use:"work with existing resources, but generally not create or delete them",manage:"do everything, including create, update and delete"};
+const RD={"virtual-network-family":"VCNs, subnets, gateways and security lists","instance-family":"compute instances and their attachments","object-family":"Object Storage buckets and objects","autonomous-database-family":"Autonomous Databases and backups","all-resources":"every resource type"};
+["pGroup","pVerb","pRes","pLoc"].forEach(id=>$("#"+id).onchange=renderPol);
+function renderPol(){const g=$("#pGroup").value,v=$("#pVerb").value,r=$("#pRes").value,l=$("#pLoc").value;
+ $("#pCode").innerHTML=`<span class="k">Allow group</span> <span class="v">${g}</span> <span class="k">to</span> <span class="v">${v}</span> <span class="v">${r}</span> <span class="k">in</span> <span class="v">${l}</span>`;
+ $("#pPlain").innerHTML=`Members of <b>${g}</b> can <b>${VD[v]}</b> for <b>${RD[r]}</b> ${l=="tenancy"?"across the <b>entire tenancy</b>":"in the <b>"+l.split(" ")[1]+"</b> compartment and all its child compartments"}. Everything else stays denied.`;
+ const p=$("#perms");p.innerHTML="";VERBS.forEach((x,i)=>p.append(el("div","perm"+(i<=VERBS.indexOf(v)?" on":""),x)));
+ const w=$("#pWarn");const risky=(v=="manage"&&(r=="all-resources"||l=="tenancy"));w.style.display=risky?"block":"none";
+ w.innerHTML="⚠️ <b>Least privilege:</b> granting <i>manage</i> broadly is powerful. Prefer a specific resource family in a specific compartment."}
+renderPol();
+
+/* ---------- 6. cost ---------- */
+const RATE={ocpuHr:2.6,blkGb:2.2,objGb:2.1}; // illustrative ₹ rates for teaching only
+["cVm","cOcpu","cHrs","cBlk","cObj","cBud","cFree"].forEach(id=>$("#"+id).oninput=calc);
+function calc(){const n=+$("#cVm").value||0,o=+$("#cOcpu").value||1,h=Math.min(+$("#cHrs").value||0,744),b=+$("#cBlk").value||0,ob=+$("#cObj").value||0,bud=+$("#cBud").value||0,free=$("#cFree").checked;
+ let freeVm=free&&o==1?Math.min(n,2):0;
+ const vmCost=(n-freeVm)*o*h*RATE.ocpuHr, blkCost=Math.max(0,b-(free?200:0))*RATE.blkGb, objCost=Math.max(0,ob-(free?20:0))*RATE.objGb;
+ const tot=vmCost+blkCost+objCost,f=x=>"₹"+Math.round(x).toLocaleString("en-IN");
+ $("#cTotal").textContent=f(tot);
+ $("#cRows").innerHTML=`<div class="row"><span>Compute (${n} VM × ${o} OCPU × ${h} h)${freeVm?` <span class="free">· ${freeVm} Always Free</span>`:""}</span><b>${f(vmCost)}</b></div>
+ <div class="row"><span>Block Volume (${b} GB)${free?` <span class="free">· 200 GB free</span>`:""}</span><b>${f(blkCost)}</b></div>
+ <div class="row"><span>Object Storage (${ob} GB)${free?` <span class="free">· 20 GB free</span>`:""}</span><b>${f(objCost)}</b></div>
+ <div class="row"><span>Inbound data transfer</span><b class="free">Free</b></div>
+ ${free&&o>1&&n>0?'<div class="note">Always Free micro VMs have 1 OCPU, so VMs with more OCPUs are billed.</div>':""}`;
+ const pct=bud?tot/bud*100:(tot?999:0),s=$("#cBudget");s.className="status "+(pct>=100?"dn":"up");
+ $("#cBudText").textContent=pct>=100?`Budget alert! Spend is ${Math.round(pct)}% of your ₹${bud} budget, so an alert email would fire.`:`Within budget (${Math.round(pct)}% of ₹${bud}). A budget alert rule fires at 100% of actual or forecast spend.`}
+calc();
+
+/* ---------- 7. quiz ---------- */
+const QZ=[
+ ["How many fault domains does each availability domain contain?",["Two","Three","Four","It varies"],1,"Every AD has three fault domains."],
+ ["In the shared responsibility model, who patches the guest OS on an OCI Compute VM?",["Oracle","The customer","Both equally","Nobody"],1,"On IaaS, the guest OS is the customer's responsibility."],
+ ["Which gateway lets a private VM reach the internet for updates without being reachable from it?",["Internet Gateway","NAT Gateway","Service Gateway","DRG"],1,"NAT Gateway provides outbound-only access."],
+ ["Which IAM verb allows creating and deleting resources?",["use","read","manage","inspect"],2,"manage grants all permissions."],
+ ["What is OCI's default stance on access with no policies?",["Allow all","Deny all","Read-only","Admins only"],1,"OCI denies everything unless a policy allows it."],
+ ["Which storage service is best for a shared NFS file system?",["Object Storage","Block Volume","File Storage","Archive"],2,"File Storage is managed NFS."],
+ ["Which tool alerts you when spending crosses a threshold?",["Cost Analysis","Budgets","Tags","Audit"],1,"Budgets have alert rules on actual or forecast spend."],
+ ["A complete OCI region inside a customer's own data centre is called…",["Cloud Shell","Dedicated Region","Roving Edge","Realm"],1,"OCI Dedicated Region."],
+ ["Which service records every API call made in your tenancy?",["Audit","Logging Analytics","Events","Monitoring"],0,"The Audit service records API calls automatically."],
+ ["OCI pricing for a service is…",["Different per region","The same in every commercial region","Free in India","Set per customer"],1,"OCI uses consistent global pricing."]];
+let qi=0,qs=0;
+function renderQ(){const b=$("#quizBox");
+ if(qi>=QZ.length){b.innerHTML=`<h3 style="margin-top:0">You scored ${qs} / ${QZ.length}</h3><p>${qs>=8?"Excellent, exam ready! 🎉":qs>=6?"Good, review the modules you missed.":"Keep practising, revisit the explorer above."}</p>`;const r=el("button","btn","Restart quiz");r.onclick=()=>{qi=0;qs=0;renderQ()};b.append(r);return}
+ const [q,o,a,w]=QZ[qi];b.innerHTML=`<div style="font-size:13px;color:var(--muted)">Question ${qi+1} of ${QZ.length}</div><div class="bar"><i style="width:${qi/QZ.length*100}%"></i></div><h3 style="margin:0 0 10px">${q}</h3>`;
+ const fb=el("p","",""),nx=el("button","btn",qi==QZ.length-1?"See score":"Next →");nx.style.display="none";
+ o.forEach((t,i)=>{const x=el("button","opt",t);x.onclick=()=>{if(b.dataset.ans==qi)return;b.dataset.ans=qi;if(i==a)qs++;x.classList.add(i==a?"ok":"no");b.querySelectorAll(".opt")[a].classList.add("ok");fb.innerHTML=(i==a?"✅ ":"❌ ")+w;nx.style.display="inline-block"};b.append(x)});
+ nx.onclick=()=>{qi++;renderQ()};b.append(fb,nx)}
+renderQ();
+</script>
+</body>
+</html>
